@@ -1,7 +1,16 @@
 import Link from "next/link";
 import { blog } from "@/lib/source";
+import { getAllPosts, getPageContent } from "@/actions/notion";
 
-export default function Page(): React.ReactElement {
+const BlogPage = async () => {
+  const notionPosts = await getAllPosts();
+  // console.log(notionPosts, "notionPosts");
+
+  const pageContents = await getPageContent(
+    "9aea5ac6-1657-484d-a55c-7beca6086662"
+  );
+  console.log(pageContents, "pageContents");
+
   const posts = [...blog.getPages()].sort(
     (a, b) =>
       new Date(b.data.date ?? b.path).getTime() -
@@ -60,4 +69,6 @@ export default function Page(): React.ReactElement {
       </div>
     </main>
   );
-}
+};
+
+export default BlogPage;
